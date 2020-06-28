@@ -26,6 +26,15 @@
     loop:
       - "net.bridge.bridge-nf-call-ip6tables = 1"
       - "net.bridge.bridge-nf-call-iptables = 1"
+      
+  - name: Install docker repository
+    yum_repository:
+      name: Docker CE Stable - $basearch
+      file: docker-ce
+      baseurl: https://download.docker.com/linux/centos/7/$basearch/stable
+      enabled: 1
+      gpgcheck: 1
+      gpgkey: https://download.docker.com/linux/centos/gpg
 
  
     
