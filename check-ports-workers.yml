@@ -1,0 +1,23 @@
+---
+
+- hosts: workers
+  remote_user: root
+  gather_facts: no
+  tasks:
+
+  - name: Check required ports for workers
+    firewalld:
+      port: "{{item}}"
+      permanent: yes
+      state: enabled
+
+    loop:
+      - 10250/tcp
+      - 30000-32767/tcp
+
+    notify:
+      - reload firewalld
+
+  handlers:
+    - name: reload firewalld
+      command: firewall-cmd --reload

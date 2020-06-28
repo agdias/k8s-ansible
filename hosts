@@ -1,0 +1,7 @@
+cka[1:3].hallo.io
+
+[masters]
+cka1.hallo.io
+
+[workers]
+cka[2:3].hallo.io

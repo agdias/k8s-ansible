@@ -1,0 +1,22 @@
+---
+- hosts: masters
+  remote_user: root
+  gather_facts: no
+  tasks:
+
+  - name: Check required ports for masters
+
+    firewalld:
+      port: "{{item}}"
+      permanent: yes
+      state: enabled
+    notify:
+      - name: reload firewalld
+
+    loop:
+      - 6443/tcp
+      - 2379-2380/tcp
+      - 10250-10252/tcp
+  handlers:
+    - name: reload firewalld
+      command: firewall-cmd --reload 
