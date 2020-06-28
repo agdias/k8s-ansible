@@ -26,8 +26,30 @@
     loop:
       - "net.bridge.bridge-nf-call-ip6tables = 1"
       - "net.bridge.bridge-nf-call-iptables = 1"
+
+  - name: Check required ports for masters
+    hosts: masters
+
+    firewalld:
+      port: "{{item}}
+      permanent: yes
+      state: enabled
+
+    loop:
+
+      - 6443/tcp
+      - 2379-2380/tcp
+      - 10250-10252/tcp
+    notify:
+      restart masters firewalld
+    
   handlers:
     - name: restart sshd
       systemd:
         name: sshd
         state: restarted
+
+    - name: reload masters firewalld
+      hosts: masters
+      command: firewall-cmd --reload
+     
