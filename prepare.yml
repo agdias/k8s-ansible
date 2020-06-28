@@ -11,8 +11,12 @@
       line: 'UseDNS no'
       regex: '#^UseDNS'
       state: present
+    notify:
+      - restart sshd
     tags:
       - usedns
+      
+    
   
   - name: Letting iptables see bridged traffic
     lineinfile:
@@ -22,4 +26,8 @@
     loop:
       - "net.bridge.bridge-nf-call-ip6tables = 1"
       - "net.bridge.bridge-nf-call-iptables = 1"
-
+  handlers:
+    - name: restart sshd
+      systemd:
+        name: sshd
+        state: restarted
