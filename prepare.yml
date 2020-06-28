@@ -27,14 +27,21 @@
       - "net.bridge.bridge-nf-call-ip6tables = 1"
       - "net.bridge.bridge-nf-call-iptables = 1"
       
-  - name: Install docker repository
-    yum_repository:
-      name: Docker CE Stable - $basearch
-      file: docker-ce
-      baseurl: https://download.docker.com/linux/centos/7/$basearch/stable
-      enabled: 1
-      gpgcheck: 1
-      gpgkey: https://download.docker.com/linux/centos/gpg
+  - name: copy docker repo file
+    copy:
+      src: docker-ce.repo
+      dest: /etc/yum.repos.d/docker-ce.repo
+
+  - name: Install docker container engine
+    yum:
+      name: "{{item}}"
+      state: installed
+    loop:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+    notify: 
+      - enable docker
 
  
     
@@ -43,4 +50,10 @@
       systemd:
         name: sshd
         state: restarted
+
+    - name: enabled docker
+      systemd:
+        name: docker
+        enabled: yes
+
      
