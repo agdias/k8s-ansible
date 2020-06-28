@@ -1,6 +1,6 @@
 ---
 
-- hosts: all
+- hosts: cka1.hallo.io
   remote_user: root
   gather_facts: no
   tasks:
