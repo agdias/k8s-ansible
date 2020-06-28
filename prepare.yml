@@ -1,6 +1,6 @@
 ---
 
-- hosts: cka1.hallo.io
+- hosts: all
   remote_user: root
   gather_facts: no
   tasks:
@@ -22,3 +22,4 @@
     loop:
       - "net.bridge.bridge-nf-call-ip6tables = 1"
       - "net.bridge.bridge-nf-call-iptables = 1"
+
