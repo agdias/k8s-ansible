@@ -4,6 +4,7 @@
   remote_user: root
   gather_facts: no
   tasks:
+
   
   - name: Changing sshd_config UseDNS
     lineinfile:
@@ -15,8 +16,11 @@
       - restart sshd
     tags:
       - usedns
-      
-    
+
+  - name: update systems
+    yum:
+      name: '*'
+      state: latest
   
   - name: Letting iptables see bridged traffic
     lineinfile:
@@ -34,6 +38,4 @@
       systemd:
         name: sshd
         state: restarted
-    - name: reload firewalld
-      command: firewall-cmd --reload
      
