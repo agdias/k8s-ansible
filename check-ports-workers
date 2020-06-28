@@ -1,0 +1,9 @@
+ - name: Check required ports for workers
+    fireawlld:
+      port: "{{item}}"
+      permanent: yes
+      state: enabled
+    loop:
+      - 30000-32767/tcp
+    notify:
+      - reload firewalld
